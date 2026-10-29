@@ -5,12 +5,22 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Build APK
-        uses: ArtemSBulgakov/buildozer-action@v1.5.0
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
         with:
-          command: buildozer android debug
-          buildozer_version: stable
-      - uses: actions/upload-artifact@v4
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y openjdk-17-jdk unzip wget
+          pip install --upgrade pip==24.0
+          pip install buildozer cython==0.29.33
+      - name: Build APK
+        run: |
+          rm -rf .buildozer bin
+          buildozer android debug
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
         with:
           name: Pakulla-APK
           path: bin/*.apk
