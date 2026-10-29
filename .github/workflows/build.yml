@@ -5,14 +5,13 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - name: Install dependencies
+      - name: Install Buildozer
         run: |
           sudo apt update
-          sudo apt install -y openjdk-17-jdk unzip wget
+          sudo apt install -y openjdk-17-jdk unzip
           pip install --upgrade pip==24.0
           pip install buildozer cython==0.29.33
       - name: Build APK
